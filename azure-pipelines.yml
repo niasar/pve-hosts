@@ -42,7 +42,6 @@ steps:
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '''$(modulePath)'''
-    includeRootFolder: true
     archiveType: 'tar'
     archiveFile: '$(Build.ArtifactStagingDirectory)/build$(Build.BuildId).tar.gz'
     replaceExistingArchive: true
