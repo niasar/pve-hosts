@@ -48,3 +48,4 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/build$(Build.BuildId).tar.gz'
     ArtifactName: 'build_gzipped'
     publishLocation: 'Container'
+    
