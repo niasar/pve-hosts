@@ -1,7 +1,3 @@
-# Go
-# Build your Go project.
-# Add steps that test, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/go
 
 trigger:
 - master
@@ -35,13 +31,14 @@ steps:
         dep ensure
     fi
     go build -v .
+    rm -rf .git
     find . -type f -not -name 'pve-hosts' -print0 | xargs -0 rm --
   workingDirectory: '$(modulePath)'
   displayName: 'Get dependencies, then build'
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '''$(modulePath)'''
+    rootFolderOrFile: '$(modulePath)'
     archiveType: 'tar'
     archiveFile: '$(Build.ArtifactStagingDirectory)/build$(Build.BuildId).tar.gz'
     replaceExistingArchive: true
