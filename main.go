@@ -7,6 +7,7 @@ import (
 	"math"
 	"os"
 	"os/exec"
+	"strconv"
 	"strings"
 )
 
@@ -14,6 +15,7 @@ func main() {
 	iface := flag.String("iface", "vmbr0", "network interface")
 	flag.Parse()
 	detectPveCluster()
+	_, _ = fmt.Fprintln(os.Stderr, "Gathering info about cluster nodes...")
 	list := getNodeNamelist()
 	ipAddr := getIPaddressess(list, *iface)
 	printResult(ipAddr, list)
@@ -49,6 +51,7 @@ func getIPaddressess(nodeList []string, iface string) map[string]string {
 	for i := range nodeList {
 		ifmap = make(map[string]string)
 		nodeName := nodeList[i]
+		_, _ = fmt.Fprintln(os.Stderr, strings.Join([]string{"[", strconv.Itoa(i + 1), "/", strconv.Itoa(len(nodeList)), "]"}, ""), "Gathering info about", nodeList[i], "\b...")
 		apiPath := strings.Join([]string{"/nodes/", nodeName, "/network"}, "")
 		jsonRaw, err := exec.Command("pvesh", "get", apiPath, "-output-format", "json").CombinedOutput() // Accessing proxmox API about interfaces on node
 		check(err)
@@ -76,6 +79,7 @@ func getIPaddressess(nodeList []string, iface string) map[string]string {
 }
 
 func printResult(ipMap map[string]string, nodeList []string) {
+	fmt.Fprintln(os.Stderr, "Printing result...")
 	var longest int
 	longest = 0
 	for i := range nodeList {
@@ -102,6 +106,7 @@ func printResult(ipMap map[string]string, nodeList []string) {
 		}
 		fmt.Println(strings.Join([]string{i, tabulator, ipAddr}, ""))
 	}
+	fmt.Fprintln(os.Stderr, "Done!")
 }
 
 func detectPveCluster() {
