@@ -4,7 +4,7 @@ This tool is what you need, just run `pve-hosts >> /etc/hosts` to get every PVE 
 ## Build status
 Master branch: [![Build Status](https://dev.azure.com/niasar/pve-hosts/_apis/build/status/niasar.pve-hosts?branchName=master)](https://dev.azure.com/niasar/pve-hosts/_build/latest?definitionId=2&branchName=master)
 
-Latest release binary: [![Get latest binary](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/niasar/pve-hosts/releases/latest/download/pve-hosts)
+Latest release binary: [![Get latest binary](https://img.shields.io/badge/Version-1.2.0-green.svg)](https://github.com/niasar/pve-hosts/releases/latest/download/pve-hosts)
 
 ## Usage
 
@@ -15,9 +15,13 @@ This one (if it executed on cluster node) prints to stdout list of hosts with it
 
 Works great with PVE 5.3 and 5.4, i guess it will work on other 5.x installations. Currently i have no PVE v6 cluster to test compatibility, so it may work on v6, but im not sure
 
+Also you can generate list in ansible hosts file format by specifying `-format ansible` flag
+
 #### Warning
 
 If node have multiple IP addressess on given interface, only first one will be included, for others specify interface with index (ex. vmbr0:1)
+
+You need all your cluster nodes to be online, to generate host list 
 
 Also if you have issues with your /etc/ssh/ssh_known_hosts file, execution will fail
 
