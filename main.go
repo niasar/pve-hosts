@@ -57,7 +57,11 @@ func apiGetReq(path string) []byte {
 		firstChar := string(scanner.Text()[0])
 		if firstChar == "[" {
 			rawJSON = []byte(scanner.Text())
-			break
+			if json.Valid(rawJSON) {
+				break
+			} else {
+				rawJSON = nil
+			}
 		}
 	}
 	return rawJSON

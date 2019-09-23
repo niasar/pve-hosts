@@ -4,7 +4,7 @@ This tool is what you need, just run `pve-hosts >> /etc/hosts` to get every PVE 
 ## Build status
 Master branch: [![Build Status](https://dev.azure.com/niasar/pve-hosts/_apis/build/status/niasar.pve-hosts?branchName=master)](https://dev.azure.com/niasar/pve-hosts/_build/latest?definitionId=2&branchName=master)
 
-Latest release binary: [![Get latest binary](https://img.shields.io/badge/Version-1.2.0-green.svg)](https://github.com/niasar/pve-hosts/releases/latest/download/pve-hosts)
+Latest release binary: [![Get latest binary](https://img.shields.io/badge/Version-1.2.1-green.svg)](https://github.com/niasar/pve-hosts/releases/latest/download/pve-hosts)
 
 ## Usage
 
