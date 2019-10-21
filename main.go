@@ -104,6 +104,16 @@ func getIPaddressess(nodeList []string, iface string) map[string]string {
 			ipMap[nodeList[i]] = ipAddr
 		}
 	}
+	for k := range ipMap {
+		splittedAddr := strings.Split(ipMap[k], ".") // Separating CIDR mask if present
+		splittedOctet := strings.Split(splittedAddr[3], "/")
+		if len(splittedOctet) == 1 {
+			ipMap[k] = strings.Join(splittedAddr, ".")
+		} else {
+			splittedAddr[3] = splittedOctet[0]
+			ipMap[k] = strings.Join(splittedAddr, ".")
+		}
+	}
 	return ipMap
 }
 
@@ -111,31 +121,22 @@ func printResult(ipMap map[string]string, format string) {
 	var longest int
 	longest = 0
 	for k := range ipMap {
-		if len(k) > longest {
-			longest = len(k)
+		if len(ipMap[k]) > longest {
+			longest = len(ipMap[k])
 		}
 	}
 	maxDivider, _ := math.Modf(float64(longest) / 8)
 	for k := range ipMap {
-		var ipAddr string
 		tabulator := "\t"
 		divider, _ := math.Modf(float64(len(k)) / 8)
 		tabs := maxDivider - divider
-		for i2 := 0; i2 < int(tabs); i2++ {
+		for i := 0; i < int(tabs); i++ {
 			tabulator = strings.Join([]string{tabulator, "\t"}, "")
 		}
-		splittedAddr := strings.Split(ipMap[k], ".") // Separating CIDR mask if present
-		splittedOctet := strings.Split(splittedAddr[3], "/")
-		if len(splittedOctet) == 1 {
-			ipAddr = strings.Join(splittedAddr, ".")
-		} else {
-			splittedAddr[3] = splittedOctet[0]
-			ipAddr = strings.Join(splittedAddr, ".")
-		}
 		if format == "ansible" {
-			fmt.Printf("%s%sansible_host=%s\n", k, tabulator, ipAddr)
+			fmt.Printf("%s%sansible_host=%s\n", k, tabulator, ipMap[k])
 		} else if format == "hosts" {
-			fmt.Println(strings.Join([]string{k, tabulator, ipAddr}, ""))
+			fmt.Println(strings.Join([]string{ipMap[k], tabulator, k}, ""))
 		}
 	}
 }
