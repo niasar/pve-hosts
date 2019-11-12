@@ -14,10 +14,13 @@ import (
 )
 
 func main() {
+	//Setup flags
 	iface := flag.String("iface", "vmbr0", "network interface")
-	format := flag.String("format", "hosts", "output in ansible hosts definition format")
+	format := flag.String("format", "hosts", "output format (ansible or hosts)")
 	flag.Parse()
+	// Check is -output flag is acceptable
 	checkFormat(*format)
+	//Checking is pve cluster available (currently relying on /etc/pve/corosync.conf)
 	detectPveCluster()
 	fmt.Fprintln(os.Stderr, "Gathering info about cluster nodes...")
 	list := getNodeNamelist()
